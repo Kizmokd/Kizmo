@@ -4,344 +4,286 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Risk &amp; Reward Trader</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-        
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            padding-bottom: 76px;
-            min-height: 100vh;
             background: #0f172a;
             color: #e2e8f0;
+            font-family: system-ui, -apple-system, sans-serif;
+            padding-bottom: 80px;
         }
-        
-        .header { 
-            background: linear-gradient(90deg, #1e2937, #334155); 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+        .nav-link {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            padding: 8px 0;
         }
-        
-        .bottom-nav { 
-            position: fixed; 
-            bottom: 0; left: 0; right: 0; 
-            background: #1e2937; 
-            border-top: 1px solid #334155; 
-            box-shadow: 0 -4px 12px rgba(0,0,0,0.3); 
-            z-index: 1020; 
+        .nav-link.active {
+            color: #22d3ee;
+            border-top: 3px solid #22d3ee;
         }
-        
-        .nav-link { 
-            color: #cbd5e1; 
-            font-size: 0.75rem; 
-            padding: 8px 12px; 
-        }
-        
-        .nav-link.active { 
-            color: #22c55e; 
-            background: rgba(134, 239, 172, 0.15); 
-        }
-        
-        .form-control-lg, .form-select-lg {
-            font-size: 1.25rem; 
-            padding: 14px 18px; 
-            border-radius: 12px;
-            background-color: #1e2937 !important; 
-            color: #ffffff !important; 
-            border: 2px solid #334155;
-        }
-        
-        .form-control-lg:focus, .form-select-lg:focus {
-            background-color: #1e2937 !important; 
-            color: #ffffff !important; 
-            border-color: #22c55e;
-            box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.25);
-        }
-        
-        .input-group-text { 
-            background: #334155; 
-            color: #cbd5e1; 
-            border: 2px solid #334155; 
-            font-weight: 500;
-            padding: 14px 18px;
-        }
-        
-        .result-card {
-            background: #1e2937; 
-            border: 2px solid #22c55e; 
-            border-radius: 16px;
-            padding: 20px; 
-            box-shadow: 0 10px 25px rgba(134,239,172,0.2);
-        }
-        
-        .value-display { 
-            font-size: 2.4rem; 
-            font-weight: 600; 
-            line-height: 1; 
-        }
-        
-        .section-label { 
-            font-size: 1rem; 
-            font-weight: 600; 
-            color: #94a3b8; 
-            margin-bottom: 6px; 
-        }
-        
-        .calc-display {
-            background-color: #1e2937 !important;
-            color: #22c55e !important;
-            border: 2px solid #334155;
-            font-weight: 500;
-            padding: 14px 18px;
-        }
-        
-        .position-card {
+        .card {
             background: #1e2937;
-            border: 2px solid #eab308;
+            border: none;
             border-radius: 16px;
-            padding: 18px;
         }
-        
-        .btn-reverse {
+        .form-control, .form-select {
+            background: #334155;
+            border: none;
+            color: #e2e8f0;
+            border-radius: 12px;
+            height: 52px;
+        }
+        .form-label {
+            color: #94a3b8;
             font-size: 0.95rem;
-            padding: 10px 16px;
+        }
+        .result-box {
+            background: linear-gradient(135deg, #22d3ee, #06b6d4);
+            color: #0f172a;
+            border-radius: 16px;
+            padding: 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1e2937;
+            border-top: 1px solid #334155;
+            z-index: 1000;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e2937, #334155);
         }
     </style>
 </head>
 <body>
-    <div class="header py-3 px-4 d-flex align-items-center justify-content-between">
-        <div class="d-flex align-items-center gap-2">
-            <div class="bg-success rounded-3 p-2 text-white fw-bold">📊</div>
-            <h4 class="mb-0 fw-semibold">Risk &amp; Reward V5</h4>
+    <!-- Header -->
+    <div class="header py-3 text-center shadow-sm">
+        <h4 class="mb-0 fw-bold text-cyan">Risk &amp; Reward Trader 05-03-V1</h4>
+    </div>
+
+    <!-- Tab 1: Risk Amount -->
+    <div id="tab1" class="tab-content active container mt-4">
+        <div class="card mx-auto p-4" style="max-width: 420px;">
+            <div class="mb-4">
+                <label class="form-label">Portfolio Value ($)</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-0">$</span>
+                    <input type="number" id="portfolio" class="form-control fs-4" placeholder="10,000" value="10000" oninput="calculateRisk()">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">% of Account to Risk</label>
+                <div class="input-group">
+                    <input type="number" id="percent" class="form-control fs-4" placeholder="1" step="0.1" value="1" oninput="calculateRisk()">
+                    <span class="input-group-text bg-transparent border-0">%</span>
+                </div>
+            </div>
+
+            <div class="result-box text-center mt-4">
+                <small class="d-block fw-normal opacity-75">Risk Amount</small>
+                <div id="riskAmt" class="display-5">$100.00</div>
+            </div>
+
+            <div class="text-center mt-3 text-muted small">
+                This is the maximum dollar amount you will risk on this trade
+            </div>
         </div>
     </div>
 
-    <div class="container px-4 pt-4 pb-2" style="max-width: 540px;">
+    <!-- Tab 2: Position Size -->
+    <div id="tab2" class="tab-content container mt-4">
+        <div class="card mx-auto p-4" style="max-width: 420px;">
+            <div class="mb-4">
+                <label class="form-label">Entry Price ($)</label>
+                <input type="number" id="entry" class="form-control fs-4" placeholder="45.50" step="0.01" value="45.50" oninput="calculateShares()">
+            </div>
 
-        <!-- RISK TAB -->
-        <div id="risk-page" class="page">
             <div class="mb-4">
-                <div class="section-label">Portfolio Total Value $</div>
-                <div class="input-group mb-1">
-                    <span class="input-group-text">$</span>
-                    <input type="number" id="portfolio" class="form-control form-control-lg" value="32000" step="50">
-                </div>
+                <label class="form-label">Stop Loss Price ($)</label>
+                <input type="number" id="stop" class="form-control fs-4" placeholder="43.80" step="0.01" value="43.80" oninput="calculateShares()">
             </div>
-            <div class="mb-4">
-                <div class="section-label">% to Risk</div>
-                <div class="input-group">
-                    <span class="input-group-text">%</span>
-                    <input type="number" id="riskPercent" class="form-control form-control-lg" value="1" step="0.1">
-                </div>
+
+            <div class="result-box text-center mt-4">
+                <small class="d-block fw-normal opacity-75">Shares to Buy</small>
+                <div id="shares" class="display-5">58</div>
             </div>
-            <div class="result-card text-center">
-                <div class="text-success fw-medium mb-1">MAX RISK AMOUNT FOR THIS TRADE</div>
-                <div id="riskAmount" class="value-display text-success">$320.00</div>
+
+            <div id="riskPerShareInfo" class="text-center mt-3 small text-muted">
+                Risk per share: <span id="riskPerShare">$1.70</span>
             </div>
         </div>
+    </div>
 
-        <!-- REWARD TAB -->
-        <div id="reward-page" class="page d-none">
-            <h5 class="mb-4 text-success">Reward Amount</h5>
+    <!-- Tab 3: Profit Target -->
+    <div id="tab3" class="tab-content container mt-4">
+        <div class="card mx-auto p-4" style="max-width: 420px;">
             <div class="mb-4">
-                <div class="section-label">Risk : Reward Ratio</div>
-                <select id="rrRatio" class="form-select form-select-lg" onchange="updateAll()">
-                    <option value="2" selected>1:2 (Standard)</option>
-                    <option value="3">1:3 (Aggressive)</option>
-                    <option value="1.5">2:3 (Balanced)</option>
+                <label class="form-label">Risk : Reward Ratio</label>
+                <select id="ratio" class="form-select fs-4" onchange="calculateTarget()">
+                    <option value="1:2">1:2</option>
+                    <option value="2:3">2:3</option>
+                    <option value="2:5" selected>2:5</option>
+                    <option value="1:3">1:3</option>
                 </select>
             </div>
-            <div class="result-card text-center">
-                <div class="text-warning fw-medium mb-1">POTENTIAL REWARD (PROFIT TARGET)</div>
-                <div id="rewardAmount" class="value-display text-warning">$640.00</div>
-            </div>
-        </div>
 
-        <!-- TARGETS TAB - More Compact + Reverse Button -->
-        <div id="trade-page" class="page d-none">
-            <h5 class="mb-3 text-success">Price Targets &amp; Stop Loss</h5>
-            
-            <div class="mb-3">
-                <div class="section-label">Entry Price $</div>
-                <div class="input-group">
-                    <span class="input-group-text">$</span>
-                    <input type="number" id="entryPrice" class="form-control form-control-lg" value="8.20" step="0.01" onfocus="this.select()" oninput="updateAll()">
-                </div>
-            </div>
-
-            <div class="mb-3">
-                <div class="d-flex justify-content-between align-items-end">
-                    <div class="section-label">Stop Loss Price $</div>
-                    <button onclick="reverseCalculateStop()" class="btn btn-outline-success btn-reverse mb-1">
-                        Reverse ←
-                    </button>
-                </div>
-                <div class="input-group">
-                    <span class="input-group-text">$</span>
-                    <input type="number" id="stopLossPrice" class="form-control form-control-lg" value="8.12" step="0.01" onfocus="this.select()" oninput="updateAll()">
-                </div>
-            </div>
-
-            <div class="row g-2 mb-4">
+            <div class="row g-3">
                 <div class="col-6">
-                    <div class="section-label">Risk %</div>
-                    <div id="riskPercentDisplay" class="form-control form-control-lg calc-display text-center text-danger">0.98%</div>
+                    <div class="text-center p-3 bg-dark rounded-3">
+                        <small class="text-muted">Entry</small>
+                        <div id="targetEntry" class="fs-3 fw-bold">$45.50</div>
+                    </div>
                 </div>
                 <div class="col-6">
-                    <div class="section-label">Profit Target $</div>
-                    <div id="profitTargetDisplay" class="form-control form-control-lg calc-display text-center">$8.36</div>
-                </div>
-            </div>
-
-            <!-- POSITION SIZING CALCULATOR -->
-            <div class="position-card mt-3">
-                <h6 class="text-warning mb-3 text-center">📐 POSITION SIZING CALCULATOR</h6>
-                
-                <div class="row g-3 text-center">
-                    <div class="col-6">
-                        <small class="text-success">Risk per Share</small>
-                        <div id="riskPerShare" class="value-display text-danger">$0.08</div>
-                    </div>
-                    <div class="col-6">
-                        <small class="text-success">Max Shares</small>
-                        <div id="numShares" class="value-display text-success">4000</div>
-                    </div>
-                </div>
-                
-                <div class="mt-3 pt-3 border-top border-secondary">
-                    <div class="d-flex justify-content-between mb-2">
-                        <span class="text-success">Position Value</span>
-                        <span id="positionValue" class="fw-semibold">$32,800</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span class="text-success">% of Portfolio</span>
-                        <span id="portfolioPercent" class="fw-semibold text-info">102.5%</span>
+                    <div class="text-center p-3 bg-dark rounded-3">
+                        <small class="text-muted">Stop Loss</small>
+                        <div id="targetStop" class="fs-3 fw-bold">$43.80</div>
                     </div>
                 </div>
             </div>
 
-            <button onclick="updateAll()" class="btn btn-success w-100 py-3 fs-5 fw-semibold rounded-3 mt-4 mb-2">
-                RECALCULATE ALL
-            </button>
+            <div class="result-box text-center mt-4">
+                <small class="d-block fw-normal opacity-75">Profit Target</small>
+                <div id="profitTarget" class="display-5">$51.30</div>
+            </div>
 
-            <small class="text-success d-block text-center">
-                Profit Target calculated using selected R:R ratio • Reverse button uses Risk % from first tab
-            </small>
+            <div class="mt-3 text-center">
+                <div class="small text-success">
+                    Potential Reward: <span id="rewardAmt">$336.40</span>
+                </div>
+            </div>
         </div>
-
     </div>
 
-    <!-- BOTTOM TABS -->
-    <nav class="bottom-nav navbar">
-        <div class="container px-0">
-            <ul class="nav nav-pills w-100 justify-content-around m-0 p-0">
-                <li class="nav-item text-center flex-fill"><a href="#" onclick="switchTab(0)" class="nav-link" id="tab-0"><div class="mb-1 fs-4">📉</div>RISK</a></li>
-                <li class="nav-item text-center flex-fill"><a href="#" onclick="switchTab(1)" class="nav-link" id="tab-1"><div class="mb-1 fs-4">📈</div>REWARD</a></li>
-                <li class="nav-item text-center flex-fill"><a href="#" onclick="switchTab(2)" class="nav-link active" id="tab-2"><div class="mb-1 fs-4">🎯</div>TARGETS</a></li>
-            </ul>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-4">
+                    <a href="#" onclick="switchTab(1)" class="nav-link active" id="nav1">
+                        <i class="bi bi-shield-check fs-3 d-block"></i>
+                        <span>Risk</span>
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="#" onclick="switchTab(2)" class="nav-link" id="nav2">
+                        <i class="bi bi-graph-up fs-3 d-block"></i>
+                        <span>Shares</span>
+                    </a>
+                </div>
+                <div class="col-4">
+                    <a href="#" onclick="switchTab(3)" class="nav-link" id="nav3">
+                        <i class="bi bi-trophy fs-3 d-block"></i>
+                        <span>Target</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        let currentRiskAmount = 320;
+        let riskAmount = 100;
 
-        function updateRiskCalculation() {
-            const port = parseFloat(document.getElementById('portfolio').value) || 0;
-            const pct = parseFloat(document.getElementById('riskPercent').value) || 0;
-            currentRiskAmount = port * (pct / 100);
-            document.getElementById('riskAmount').innerHTML = '$' + currentRiskAmount.toFixed(2);
-        }
-
-        function updateReward() {
-            const ratio = parseFloat(document.getElementById('rrRatio').value) || 2;
-            const reward = currentRiskAmount * ratio;
-            document.getElementById('rewardAmount').innerHTML = '$' + reward.toFixed(2);
-        }
-
-        function calculateTradeSetup() {
-            const entry = parseFloat(document.getElementById('entryPrice').value) || 0;
-            const stopLoss = parseFloat(document.getElementById('stopLossPrice').value) || 0;
-            const ratio = parseFloat(document.getElementById('rrRatio').value) || 2;
-
-            if (entry <= 0 || stopLoss <= 0 || stopLoss >= entry) {
-                document.getElementById('riskPercentDisplay').innerHTML = '—';
-                document.getElementById('profitTargetDisplay').innerHTML = '$—';
-                document.getElementById('riskPerShare').innerHTML = '$—';
-                document.getElementById('numShares').textContent = '—';
-                return;
-            }
-
-            const riskPerShare = entry - stopLoss;
-            const riskPercent = (riskPerShare / entry) * 100;
-
-            const rewardPerShare = riskPerShare * ratio;
-            const profitTarget = entry + rewardPerShare;
-
-            document.getElementById('riskPercentDisplay').innerHTML = riskPercent.toFixed(2) + '%';
-            document.getElementById('profitTargetDisplay').innerHTML = '$' + profitTarget.toFixed(2);
-
-            let shares = Math.floor(currentRiskAmount / riskPerShare);
-            if (shares < 1) shares = 1;
-
-            const positionValue = shares * entry;
+        function calculateRisk() {
             const portfolio = parseFloat(document.getElementById('portfolio').value) || 0;
-            const percentUsed = portfolio > 0 ? (positionValue / portfolio * 100) : 0;
-
-            document.getElementById('riskPerShare').innerHTML = '$' + riskPerShare.toFixed(2);
-            document.getElementById('numShares').textContent = shares;
-            document.getElementById('positionValue').innerHTML = '$' + positionValue.toLocaleString('en-US');
-            document.getElementById('portfolioPercent').innerHTML = percentUsed.toFixed(1) + '%';
+            const percent = parseFloat(document.getElementById('percent').value) || 0;
+            
+            riskAmount = portfolio * (percent / 100);
+            document.getElementById('riskAmt').textContent = '$' + riskAmount.toFixed(2);
+            
+            // Update other tabs if they are using it
+            calculateShares();
+            calculateTarget();
         }
 
-        // NEW: Reverse calculation - Stop Loss from desired Risk %
-        function reverseCalculateStop() {
-            const entry = parseFloat(document.getElementById('entryPrice').value) || 0;
-            const desiredRiskPct = parseFloat(document.getElementById('riskPercent').value) || 1;
-
-            if (entry <= 0) {
-                alert("Please enter an Entry Price first.");
+        function calculateShares() {
+            const entry = parseFloat(document.getElementById('entry').value) || 0;
+            const stop = parseFloat(document.getElementById('stop').value) || 0;
+            
+            if (entry <= stop || entry === 0) {
+                document.getElementById('shares').textContent = '—';
+                document.getElementById('riskPerShare').textContent = '$0.00';
                 return;
             }
-
-            const riskAmount = entry * (desiredRiskPct / 100);
-            const stopLoss = entry - riskAmount;
-
-            document.getElementById('stopLossPrice').value = stopLoss.toFixed(2);
-            updateAll();
+            
+            const riskPerShare = entry - stop;
+            let shares = Math.floor(riskAmount / riskPerShare);
+            
+            document.getElementById('shares').textContent = shares;
+            document.getElementById('riskPerShare').textContent = '$' + riskPerShare.toFixed(2);
+            
+            calculateTarget();
         }
 
-        function updateAll() {
-            updateRiskCalculation();
-            updateReward();
-            calculateTradeSetup();
+        function calculateTarget() {
+            const entry = parseFloat(document.getElementById('entry').value) || 0;
+            const stop = parseFloat(document.getElementById('stop').value) || 0;
+            
+            document.getElementById('targetEntry').textContent = '$' + entry.toFixed(2);
+            document.getElementById('targetStop').textContent = '$' + stop.toFixed(2);
+            
+            if (entry <= stop || entry === 0) {
+                document.getElementById('profitTarget').textContent = '—';
+                document.getElementById('rewardAmt').textContent = '$0.00';
+                return;
+            }
+            
+            const ratioStr = document.getElementById('ratio').value;
+            const [riskPart, rewardPart] = ratioStr.split(':').map(Number);
+            const rewardMultiplier = rewardPart / riskPart;
+            
+            const riskPerShare = entry - stop;
+            const rewardPerShare = riskPerShare * rewardMultiplier;
+            const targetPrice = entry + rewardPerShare;
+            
+            document.getElementById('profitTarget').textContent = '$' + targetPrice.toFixed(2);
+            
+            const shares = parseFloat(document.getElementById('shares').textContent) || 0;
+            const totalReward = (targetPrice - entry) * shares;
+            document.getElementById('rewardAmt').textContent = '$' + totalReward.toFixed(2);
         }
 
         function switchTab(tab) {
-            document.querySelectorAll('.page').forEach(p => p.classList.add('d-none'));
-            if (tab === 0) document.getElementById('risk-page').classList.remove('d-none');
-            else if (tab === 1) document.getElementById('reward-page').classList.remove('d-none');
-            else if (tab === 2) document.getElementById('trade-page').classList.remove('d-none');
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            // Show selected
+            document.getElementById('tab' + tab).classList.add('active');
             
-            document.querySelectorAll('.nav-link').forEach((l, i) => l.classList.toggle('active', i === tab));
+            // Update nav
+            for (let i = 1; i <= 3; i++) {
+                const nav = document.getElementById('nav' + i);
+                if (i === tab) {
+                    nav.classList.add('active');
+                } else {
+                    nav.classList.remove('active');
+                }
+            }
             
-            if (tab !== 0) updateAll();
+            // Trigger calculations when switching
+            if (tab === 2) calculateShares();
+            if (tab === 3) calculateTarget();
         }
 
-        window.onload = () => {
-            // Mobile-friendly focus behavior
-            document.querySelectorAll('#entryPrice, #stopLossPrice').forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.value = '';
-                });
-            });
-
-            document.getElementById('portfolio').addEventListener('input', updateAll);
-            document.getElementById('riskPercent').addEventListener('input', updateAll);
-            document.getElementById('entryPrice').addEventListener('input', updateAll);
-            document.getElementById('stopLossPrice').addEventListener('input', updateAll);
-            document.getElementById('rrRatio').addEventListener('change', updateAll);
-            
-            updateAll(); // Initial calculation
+        // Initialize
+        window.onload = function() {
+            calculateRisk();
+            // Set default values and calculate everything
+            setTimeout(() => {
+                calculateShares();
+                calculateTarget();
+            }, 300);
         };
     </script>
 </body>
