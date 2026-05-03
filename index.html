@@ -86,19 +86,25 @@
             width: 100%;
             margin-top: 12px;
         }
+        /* Light grey for ratio select */
+        #ratio {
+            background: #cbd5e1 !important;
+            color: #0f172a !important;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header py-3 text-center shadow-sm">
-        <h4 class="mb-0 fw-bold text-cyan">Risk &amp; Reward Trader</h4>
+        <h4 class="mb-0 fw-bold text-cyan">Risk &amp; Reward Trader V4</h4>
     </div>
 
     <!-- Tab 1: Risk Amount -->
     <div id="tab1" class="tab-content active container mt-4">
         <div class="card mx-auto p-4" style="max-width: 420px;">
             <div class="mb-4">
-                <label class="form-label">Portfolio Value ($)</label>
+                <label class="form-label">Portfolio Value</label>
                 <div class="input-group">
                     <span class="input-group-text">$</span>
                     <input type="number" id="portfolio" class="form-control" placeholder="10000" onfocus="this.select()" oninput="calculateRisk()">
@@ -108,14 +114,14 @@
             <div class="mb-4">
                 <label class="form-label">% of Account to Risk</label>
                 <div class="input-group">
-                    <input type="number" id="percent" class="form-control" placeholder="1" step="0.1" onfocus="this.select()" oninput="calculateRisk()">
                     <span class="input-group-text">%</span>
+                    <input type="number" id="percent" class="form-control" placeholder="1" step="0.1" onfocus="this.select()" oninput="calculateRisk()">
                 </div>
             </div>
 
             <div class="result-box text-center">
                 <small class="d-block fw-normal opacity-75">Risk Amount</small>
-                <div id="riskAmt" class="display-5">$100.00</div>
+                <div id="riskAmt" class="fs-3 fw-bold">$100.00</div>
             </div>
 
             <button onclick="calculateRisk()" class="btn btn-outline-info recalc-btn">
@@ -143,7 +149,7 @@
 
             <div class="result-box text-center">
                 <small class="d-block fw-normal opacity-75">Shares to Buy</small>
-                <div id="shares" class="display-5">58</div>
+                <div id="shares" class="fs-3 fw-bold">58</div>
             </div>
 
             <div id="riskPerShareInfo" class="text-center mt-3 small text-muted">
@@ -160,11 +166,11 @@
     <div id="tab3" class="tab-content container mt-4">
         <div class="card mx-auto p-4" style="max-width: 420px;">
             <div class="mb-4">
-                <label class="form-label">Risk : Reward Ratio V3</label>
-                <select id="ratio" class="form-select fs-4" onchange="calculateTarget()">
-                    <option value="1:2">1:2</option>
+                <label class="form-label">Risk : Reward Ratio</label>
+                <select id="ratio" class="form-select" onchange="calculateTarget()">
+                    <option value="1:2" selected>1:2</option>
                     <option value="2:3">2:3</option>
-                    <option value="2:5" selected>2:5</option>
+                    <option value="2:5">2:5</option>
                     <option value="1:3">1:3</option>
                 </select>
             </div>
@@ -172,13 +178,13 @@
             <div class="row g-3">
                 <div class="col-6">
                     <div class="small-result text-center">
-                        <small class="text-muted">Entry</small>
+                        <small class="text-white">Entry</small>
                         <div id="targetEntry" class="fs-3 fw-bold text-white">$45.50</div>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="small-result text-center">
-                        <small class="text-muted">Stop Loss</small>
+                        <small class="text-white">Stop Loss</small>
                         <div id="targetStop" class="fs-3 fw-bold text-white">$43.80</div>
                     </div>
                 </div>
@@ -233,7 +239,6 @@
         function calculateRisk() {
             const portfolio = parseFloat(document.getElementById('portfolio').value) || 0;
             const percent = parseFloat(document.getElementById('percent').value) || 0;
-            
             riskAmount = portfolio * (percent / 100);
             document.getElementById('riskAmt').textContent = '$' + riskAmount.toFixed(2);
         }
@@ -250,7 +255,6 @@
             
             const riskPerShare = entry - stop;
             let shares = Math.floor(riskAmount / riskPerShare);
-            
             document.getElementById('shares').textContent = shares || '—';
             document.getElementById('riskPerShare').textContent = '$' + riskPerShare.toFixed(2);
         }
@@ -298,15 +302,12 @@
             if (tab === 3) calculateTarget();
         }
 
-        // Initialize with empty inputs
         window.onload = function() {
-            // Clear default values so inputs start empty
             document.getElementById('portfolio').value = '';
             document.getElementById('percent').value = '';
             document.getElementById('entry').value = '';
             document.getElementById('stop').value = '';
             
-            // Initial calculations (will show $0 until user enters values)
             calculateRisk();
             setTimeout(() => {
                 calculateShares();
