@@ -28,12 +28,17 @@
             border-radius: 16px;
         }
         .form-control {
-            background: #334155;
+            background: #334155 !important;
             border: none;
-            color: #e2e8f0;
+            color: #e2e8f0 !important;
             border-radius: 12px;
             height: 52px;
             font-size: 1.25rem;
+        }
+        .form-control:focus {
+            background: #334155 !important;
+            color: #e2e8f0 !important;
+            box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25);
         }
         .input-group-text {
             background: #22c55e;
@@ -86,18 +91,25 @@
             width: 100%;
             margin-top: 12px;
         }
-        /* Light grey for ratio select */
         #ratio {
             background: #cbd5e1 !important;
             color: #0f172a !important;
             font-weight: 600;
+        }
+        .version {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-left: 8px;
         }
     </style>
 </head>
 <body>
     <!-- Header -->
     <div class="header py-3 text-center shadow-sm">
-        <h4 class="mb-0 fw-bold text-cyan">Risk &amp; Reward Trader V4</h4>
+        <div class="d-flex align-items-center justify-content-center">
+            <h4 class="mb-0 fw-bold text-cyan">Risk &amp; Reward Trader</h4>
+            <span class="version">v1.2</span>
+        </div>
     </div>
 
     <!-- Tab 1: Risk Amount -->
@@ -121,7 +133,7 @@
 
             <div class="result-box text-center">
                 <small class="d-block fw-normal opacity-75">Risk Amount</small>
-                <div id="riskAmt" class="fs-3 fw-bold">$100.00</div>
+                <div id="riskAmt" class="fs-3 fw-bold">$0.00</div>
             </div>
 
             <button onclick="calculateRisk()" class="btn btn-outline-info recalc-btn">
@@ -149,11 +161,11 @@
 
             <div class="result-box text-center">
                 <small class="d-block fw-normal opacity-75">Shares to Buy</small>
-                <div id="shares" class="fs-3 fw-bold">58</div>
+                <div id="shares" class="fs-3 fw-bold">—</div>
             </div>
 
             <div id="riskPerShareInfo" class="text-center mt-3 small text-muted">
-                Risk per share: <span id="riskPerShare">$1.70</span>
+                Risk per share: <span id="riskPerShare">$0.00</span>
             </div>
 
             <button onclick="calculateShares()" class="btn btn-outline-info recalc-btn">
@@ -179,25 +191,25 @@
                 <div class="col-6">
                     <div class="small-result text-center">
                         <small class="text-white">Entry</small>
-                        <div id="targetEntry" class="fs-3 fw-bold text-white">$45.50</div>
+                        <div id="targetEntry" class="fs-3 fw-bold text-white">$0.00</div>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="small-result text-center">
                         <small class="text-white">Stop Loss</small>
-                        <div id="targetStop" class="fs-3 fw-bold text-white">$43.80</div>
+                        <div id="targetStop" class="fs-3 fw-bold text-white">$0.00</div>
                     </div>
                 </div>
             </div>
 
             <div class="result-box text-center mt-4">
                 <small class="d-block fw-normal opacity-75">Profit Target</small>
-                <div id="profitTarget" class="fs-3 fw-bold">$51.30</div>
+                <div id="profitTarget" class="fs-3 fw-bold">$0.00</div>
             </div>
 
             <div class="mt-3 text-center">
                 <div class="small text-success">
-                    Potential Reward: <span id="rewardAmt">$336.40</span>
+                    Potential Reward: <span id="rewardAmt">$0.00</span>
                 </div>
             </div>
 
@@ -234,7 +246,7 @@
     </nav>
 
     <script>
-        let riskAmount = 100;
+        let riskAmount = 0;
 
         function calculateRisk() {
             const portfolio = parseFloat(document.getElementById('portfolio').value) || 0;
@@ -267,7 +279,7 @@
             document.getElementById('targetStop').textContent = '$' + stop.toFixed(2);
             
             if (entry <= stop || entry === 0) {
-                document.getElementById('profitTarget').textContent = '—';
+                document.getElementById('profitTarget').textContent = '$0.00';
                 document.getElementById('rewardAmt').textContent = '$0.00';
                 return;
             }
@@ -312,7 +324,7 @@
             setTimeout(() => {
                 calculateShares();
                 calculateTarget();
-            }, 200);
+            }, 100);
         };
     </script>
 </body>
