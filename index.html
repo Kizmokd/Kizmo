@@ -27,22 +27,30 @@
             border: none;
             border-radius: 16px;
         }
-        .form-control, .form-select {
+        .form-control {
             background: #334155;
             border: none;
             color: #e2e8f0;
             border-radius: 12px;
             height: 52px;
+            font-size: 1.25rem;
+        }
+        .input-group-text {
+            background: #22c55e;
+            color: white;
+            border: none;
+            font-weight: 600;
         }
         .form-label {
             color: #94a3b8;
             font-size: 0.95rem;
+            margin-bottom: 6px;
         }
         .result-box {
             background: linear-gradient(135deg, #22d3ee, #06b6d4);
             color: #0f172a;
             border-radius: 16px;
-            padding: 14px 20px; /* Reduced height */
+            padding: 14px 20px;
             font-size: 1.35rem;
             font-weight: 700;
         }
@@ -50,6 +58,11 @@
             background: #334155;
             border-radius: 12px;
             padding: 12px 16px;
+        }
+        .helper-text {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-top: 8px;
         }
         .bottom-nav {
             position: fixed;
@@ -78,7 +91,7 @@
 <body>
     <!-- Header -->
     <div class="header py-3 text-center shadow-sm">
-        <h4 class="mb-0 fw-bold text-cyan">Risk &amp; Reward Trader 05-02-V2</h4>
+        <h4 class="mb-0 fw-bold text-cyan">Risk &amp; Reward Trader</h4>
     </div>
 
     <!-- Tab 1: Risk Amount -->
@@ -87,16 +100,16 @@
             <div class="mb-4">
                 <label class="form-label">Portfolio Value ($)</label>
                 <div class="input-group">
-                    <span class="input-group-text bg-transparent border-0">$</span>
-                    <input type="number" id="portfolio" class="form-control fs-4" placeholder="10,000" value="10000" oninput="calculateRisk()">
+                    <span class="input-group-text">$</span>
+                    <input type="number" id="portfolio" class="form-control" placeholder="10000" onfocus="this.select()" oninput="calculateRisk()">
                 </div>
             </div>
 
             <div class="mb-4">
                 <label class="form-label">% of Account to Risk</label>
                 <div class="input-group">
-                    <input type="number" id="percent" class="form-control fs-4" placeholder="1" step="0.1" value="1" oninput="calculateRisk()">
-                    <span class="input-group-text bg-transparent border-0">%</span>
+                    <input type="number" id="percent" class="form-control" placeholder="1" step="0.1" onfocus="this.select()" oninput="calculateRisk()">
+                    <span class="input-group-text">%</span>
                 </div>
             </div>
 
@@ -109,7 +122,7 @@
                 <i class="bi bi-arrow-repeat"></i> Recalc
             </button>
 
-            <div class="text-center mt-3 text-muted small">
+            <div class="helper-text text-center">
                 This is the maximum dollar amount you will risk on this trade
             </div>
         </div>
@@ -120,12 +133,12 @@
         <div class="card mx-auto p-4" style="max-width: 420px;">
             <div class="mb-4">
                 <label class="form-label">Entry Price ($)</label>
-                <input type="number" id="entry" class="form-control fs-4" placeholder="45.50" step="0.01" value="45.50" oninput="calculateShares()">
+                <input type="number" id="entry" class="form-control" placeholder="45.50" step="0.01" onfocus="this.select()" oninput="calculateShares()">
             </div>
 
             <div class="mb-4">
                 <label class="form-label">Stop Loss Price ($)</label>
-                <input type="number" id="stop" class="form-control fs-4" placeholder="43.80" step="0.01" value="43.80" oninput="calculateShares()">
+                <input type="number" id="stop" class="form-control" placeholder="43.80" step="0.01" onfocus="this.select()" oninput="calculateShares()">
             </div>
 
             <div class="result-box text-center">
@@ -238,7 +251,7 @@
             const riskPerShare = entry - stop;
             let shares = Math.floor(riskAmount / riskPerShare);
             
-            document.getElementById('shares').textContent = shares;
+            document.getElementById('shares').textContent = shares || '—';
             document.getElementById('riskPerShare').textContent = '$' + riskPerShare.toFixed(2);
         }
 
@@ -280,14 +293,20 @@
                 else nav.classList.remove('active');
             }
             
-            // Auto refresh when switching tabs
             if (tab === 1) calculateRisk();
             if (tab === 2) calculateShares();
             if (tab === 3) calculateTarget();
         }
 
-        // Initialize
+        // Initialize with empty inputs
         window.onload = function() {
+            // Clear default values so inputs start empty
+            document.getElementById('portfolio').value = '';
+            document.getElementById('percent').value = '';
+            document.getElementById('entry').value = '';
+            document.getElementById('stop').value = '';
+            
+            // Initial calculations (will show $0 until user enters values)
             calculateRisk();
             setTimeout(() => {
                 calculateShares();
