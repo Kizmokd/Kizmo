@@ -27,7 +27,7 @@
             border: none;
             border-radius: 16px;
         }
-        .form-control {
+        .form-control, .form-select {
             background: #334155 !important;
             border: none;
             color: #e2e8f0 !important;
@@ -35,7 +35,7 @@
             height: 52px;
             font-size: 1.25rem;
         }
-        .form-control:focus {
+        .form-control:focus, .form-select:focus {
             background: #334155 !important;
             color: #e2e8f0 !important;
             box-shadow: 0 0 0 0.25rem rgba(34, 211, 238, 0.25);
@@ -91,10 +91,10 @@
             width: 100%;
             margin-top: 12px;
         }
-        #ratio {
-            background: #cbd5e1 !important;
-            color: #0f172a !important;
-            font-weight: 600;
+        .result-label {
+            font-weight: 700;
+            color: #e2e8f0;
+            opacity: 0.9;
         }
         .version {
             font-size: 0.75rem;
@@ -108,7 +108,7 @@
     <div class="header py-3 text-center shadow-sm">
         <div class="d-flex align-items-center justify-content-center">
             <h4 class="mb-0 fw-bold text-cyan">Risk &amp; Reward Trader</h4>
-            <span class="version">v1.2</span>
+            <span class="version">v1.3</span>
         </div>
     </div>
 
@@ -132,7 +132,7 @@
             </div>
 
             <div class="result-box text-center">
-                <small class="d-block fw-normal opacity-75">Risk Amount</small>
+                <div class="result-label">Risk Amount</div>
                 <div id="riskAmt" class="fs-3 fw-bold">$0.00</div>
             </div>
 
@@ -160,7 +160,7 @@
             </div>
 
             <div class="result-box text-center">
-                <small class="d-block fw-normal opacity-75">Shares to Buy</small>
+                <div class="result-label">Shares to Buy</div>
                 <div id="shares" class="fs-3 fw-bold">—</div>
             </div>
 
@@ -203,7 +203,7 @@
             </div>
 
             <div class="result-box text-center mt-4">
-                <small class="d-block fw-normal opacity-75">Profit Target</small>
+                <div class="result-label">Profit Target</div>
                 <div id="profitTarget" class="fs-3 fw-bold">$0.00</div>
             </div>
 
